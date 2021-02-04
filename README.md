@@ -11,6 +11,11 @@ USTH ICT 2021 Distributed Systems
 Group Info
 =======================
 
-* Name 1 (ID1)
-* Name 2 (ID2)
+**Group 7: Distributed Database**
+
+- Nguyen Bui Nhat Anh - BI9-042
+- Vu Vuong Quoc Anh - BI9-046
+- Vu Van Huy - BI9-116
+- Le Thuc Kien - BI9-131
+- Pham Long Vu - BI9-234
 
