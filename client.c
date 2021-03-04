@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <unistd.h>
 
 int main(int argc, char* argv[]) {
     int so;
@@ -32,24 +33,26 @@ int main(int argc, char* argv[]) {
         // send some data to server
         printf("client> Enter filename to send: ");
         scanf("%s", s);
-        fp = fopen(s,"r");
-       send_file(fp, serv);
-       printf("Sent to server\n");
-        // then it's server turn
-        read(serv, s, sizeof(s));
-
-        printf("server says: %s\n", s);
+        
+        if( access( s, F_OK ) == 0 ) {
+        	send(serv, s, sizeof(s), 0);
+ 		fp = fopen(s,"rb+");
+       	send_file(fp, serv);
+       	printf("Sent to server\n");
+	} else {
+    		printf("File doesn't exist!\n");
+	}  
     }
 }
 
 void send_file(FILE *fp, int socket){
        char data[1024] = {0};
-       while(fgets(data, 1024, fp) != NULL){
+       while(fread(data, 1,1024, fp) != 0){
                if (send(socket, data, sizeof(data), 0) == -1){
                        printf("Error in sending data");
                        exit(1);
                }
        bzero(data, 1024);
-}
+	}
 }
                                                                                                               

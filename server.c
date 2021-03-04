@@ -34,14 +34,18 @@ int main() {
         pid = fork();
         if (pid == 0) {
             // I'm the son, I'll serve this client
-            printf("client connected\n");
+            printf("Client connected\n");
             while (1) {
                 if (conn == false){
                        printf("Client disconnected.");
                        break;
 }
                // it's client turn to chat, I wait and read message from client
-               write_file(cli);
+              	char filename[1024];
+        	recv(cli, filename,1024,0);
+        	char new_name[1024] = "new_";
+        	strcat(new_name, filename);
+               write_file(cli, new_name);
             }
             return 0;
         }
@@ -53,27 +57,28 @@ int main() {
     // disconnect
     close(cli);
 }
-void write_file(int socket){
+void write_file(int socket, char *new_name){
        int n;
        FILE *fp;
-       char *filename = "results.txt";
+       // char *filename = &new_name;
        char buffer[1024];
 
-       fp = fopen(filename, "wb");
+       fp = fopen(new_name, "wb+");
        if (fp == NULL) {
                printf("Error in writing file");
                exit(1);
        }
        while(1){
-               n = recv(socket, buffer, 1024, 0);
-               if(n <= 0){
+          	n = recv(socket, buffer, 1024, 0);
+              	if(n <= 0){
                        conn = false;
                        break;
                        return;
-               }
-       fprintf(fp, "%s", buffer);
-       bzero(buffer, 1024);
+              	}
+       	fwrite(buffer, 1, 1024, fp);
+       	bzero(buffer, 1024);
        }
+       fclose(fp);
        return;
 }
 
