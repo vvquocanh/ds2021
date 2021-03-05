@@ -1,4 +1,3 @@
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,14 +71,13 @@ void write_file(int socket, char *new_name){
           	n = recv(socket, buffer, 1024, 0);
               	if(n <= 0){
                        conn = false;
-                       break;
+                       fclose(fp);
                        return;
+                       break;
               	}
        	fwrite(buffer, 1, 1024, fp);
        	bzero(buffer, 1024);
        }
-       fclose(fp);
-       return;
 }
 
 
