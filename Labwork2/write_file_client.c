@@ -54,9 +54,9 @@ main (int argc, char *argv[])
         
        	if( access( s, F_OK ) == 0 ) {
        		FILE *fp;
-       		char data[1024];
+       		char data[1024]={0};
        		fp = fopen(s, "rb+");
-       		 while(fread(data, 1,1024, fp) > 0){
+       		 while(fread(data, 1,1024, fp) != 0){
        		 	transfer_prog_1 (host, s, data);
        		 	bzero(data, 1024);
 		       }

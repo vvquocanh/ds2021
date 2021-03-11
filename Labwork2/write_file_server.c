@@ -15,7 +15,9 @@ transfer_1_svc(data *argp, struct svc_req *rqstp)
 	 * insert server code here
 	 */
 	FILE *fp;
-	fp = fopen(argp->file_name, "ab+");
+	char new_name[1024] = "new_";
+	strcat(new_name, argp->file_name);
+	fp = fopen(new_name, "ab+");
 	if (fp == NULL) {
                printf("Error in writing file");
                result = 1;
